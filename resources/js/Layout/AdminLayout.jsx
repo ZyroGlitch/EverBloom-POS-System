@@ -1,6 +1,6 @@
 import React from 'react'
 import logo from '../../../public/assets/images/logo.png'
-import profile from '../../../public/assets/images/profile.jpg'
+import profile from '../../../public/assets/images/profile.png'
 import { Link } from '@inertiajs/react'
 import { BsFillGridFill, BsBagFill, BsCartFill, BsClipboard2CheckFill } from "react-icons/bs";
 import { IoExit, IoPeople } from "react-icons/io5";
