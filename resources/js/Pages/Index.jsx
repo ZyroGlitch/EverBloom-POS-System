@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import background from '../../../public/assets/images/background.jpg';
 import logo from '../../../public/assets/images/logo.png';
 import { useRoute } from '../../../vendor/tightenco/ziggy';
-import { useForm } from '@inertiajs/react';
+import { useForm, usePage } from '@inertiajs/react';
 
 export default function Index() {
     const route = useRoute();
@@ -22,6 +22,16 @@ export default function Index() {
         });
     }
 
+    // Use useEffect to trigger toast notifications
+    const { flash } = usePage().props
+
+    // Toggle Show / Hide Password
+    const [showPassword, setShowPassword] = useState(false);
+
+    const togglePassword = () => {
+        setShowPassword(!showPassword);
+    };
+
     return (
         <div
             className="vh-100 position-relative"
@@ -32,6 +42,7 @@ export default function Index() {
                 backgroundRepeat: 'no-repeat',
             }}
         >
+
             <div
                 className="position-absolute top-0 start-0 w-100 h-100"
                 style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
@@ -65,6 +76,10 @@ export default function Index() {
                                     value={data.username}
                                     onChange={(e) => setData('username', e.target.value)}
                                 />
+
+                                {
+                                    errors.username && <p className='text-danger mt-2'>{errors.username}</p>
+                                }
                             </div>
 
                             <div className="mb-3">
@@ -72,12 +87,21 @@ export default function Index() {
                                     Password
                                 </label>
                                 <input
-                                    type="password"
+                                    type={showPassword ? 'text' : 'password'}
                                     className="form-control shadow-sm"
                                     id="password"
                                     value={data.password}
                                     onChange={(e) => setData('password', e.target.value)}
                                 />
+
+                                {
+                                    errors.password && (
+                                        <p className='text-danger mt-2' style={{ maxWidth: '380px', wordWrap: 'break-word' }}>
+                                            {errors.password}
+                                        </p>
+                                    )
+                                }
+
                             </div>
 
                             <div className="form-check mb-4">
@@ -85,6 +109,7 @@ export default function Index() {
                                     className="form-check-input"
                                     type="checkbox"
                                     id="flexCheckDefault"
+                                    onClick={togglePassword}
                                 />
                                 <label className="form-check-label" htmlFor="flexCheckDefault">
                                     Show password
@@ -97,6 +122,10 @@ export default function Index() {
                                 disabled={processing}
                                 value="Log In"
                             />
+
+                            {
+                                flash.error && (<p className='text-danger text-center'>{flash.error}</p>)
+                            }
                         </form>
                     </div>
                 </div>

@@ -73,14 +73,14 @@ function AddEmployee() {
             <Toaster position='top-right' expand={true} richColors />
 
             <form onSubmit={submit}>
-                <nav aria-label="breadcrumb">
+                <nav aria-label="breadcrumb" className='mb-3'>
                     <ol class="breadcrumb fw-semibold">
                         <Link href={route('admin.employee')} className="breadcrumb-item text-success" style={{ textDecoration: 'none' }}>Back</Link>
                         <li class="breadcrumb-item active" aria-current="page">Add Employee</li>
                     </ol>
                 </nav>
 
-                <div className="row">
+                <div className="row justify-content-evenly">
                     <div className="col-md-4 d-flex flex-column align-items-center">
                         {/* Image Preview */}
                         {

@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Inertia\Inertia;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rules\Password;
@@ -38,7 +41,7 @@ class UserController extends Controller
             } elseif ($user->role === 'Admin') {
                 return redirect()->route('admin.dashboard');
             }
-
+        }else{
             // Redirect back to login with error message
             return redirect()->back()->with('error', 'Incorrect Username or Password!');
         }
@@ -86,5 +89,15 @@ class UserController extends Controller
         // Fetch all records who has role of employee
         $employees = User::where('role','Employee')->get();
         return inertia('Admin/Employee',['employees' => $employees]);
+    }
+
+    public function employeeLogout(Request $request){
+        Auth::logout();
+
+        // Invalidate and regenerate session
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect()->route('customer.index');
     }
 }

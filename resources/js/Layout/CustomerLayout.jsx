@@ -1,7 +1,7 @@
 import React from 'react'
 import logo from '../../../public/assets/images/logo.png'
 import profile from '../../../public/assets/images/profile.png'
-import { Link } from '@inertiajs/react'
+import { Link, useForm, usePage } from '@inertiajs/react'
 import { BsFillGridFill, BsBagFill, BsCartFill, BsClipboard2CheckFill } from "react-icons/bs";
 import { IoExit } from "react-icons/io5";
 import { FaBars, FaUserLarge } from "react-icons/fa6";
@@ -10,6 +10,24 @@ import { useRoute } from '../../../vendor/tightenco/ziggy'
 
 export default function CustomerLayout({ children }) {
     const route = useRoute();
+
+    // Get the authenticated user credentials
+    const { auth } = usePage().props
+
+    const { post } = useForm();
+
+    const handleLogout = (e) => {
+        e.preventDefault();
+        post(route('employee.logout'), {
+            onSuccess: () => {
+                console.log("Logged out successfully");
+            },
+            onError: (errors) => {
+                console.error("Logout failed", errors);
+            }
+        });
+
+    };
 
     return (
         <div className="d-flex vh-100 bg-light">
@@ -48,8 +66,8 @@ export default function CustomerLayout({ children }) {
                     <div className="d-flex align-items-center gap-3">
                         <button className="btn btn-light humburger-hidden" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample"><FaBars /></button>
 
-                        <img src={profile} alt="profile" className="object-fit-cover rounded-circle border border-2 border-light shadow-lg" style={{ width: '45px', height: '45px' }} />
-                        <h5 className="text-light"><span className="text-warning">Hi!</span> Kyle Degosman</h5>
+                        <img src={auth.user ? `/storage/${auth.user.profile}` : profile} alt="profile" className="object-fit-cover rounded-circle border border-2 border-light shadow-lg" style={{ width: '45px', height: '45px' }} />
+                        <h5 className="text-light"><span className="text-warning">Hi!</span> {auth.user ? `${auth.user.firstname} ${auth.user.lastname}` : 'Guest'}</h5>
                     </div>
                 </nav>
 
@@ -86,7 +104,7 @@ export default function CustomerLayout({ children }) {
                     </nav>
 
                     <div style={{ marginTop: '235px' }}>
-                        <Link href={route('customer.index')} className='d-flex align-items-center gap-2 rounded p-2 sidebar-item'><IoExit /> Logout</Link>
+                        <button onClick={handleLogout} className='d-flex align-items-center gap-2 rounded p-2 sidebar-item'><IoExit /> Logout</button>
                     </div>
                 </div>
             </div>
