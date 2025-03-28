@@ -31,7 +31,10 @@ function Employee({ employees }) {
                                         <p className='text-muted mb-0'>{employee.role}</p>
                                     </div>
 
-                                    <Link className="btn btn-success">{employee.id} View</Link>
+                                    <Link
+                                        href={route('employee.viewProfile', { user_id: employee.id })}
+                                        className="btn btn-success"
+                                    >View</Link>
                                 </div>
                                 <div className="card-body">
                                     <div className='mb-3'>

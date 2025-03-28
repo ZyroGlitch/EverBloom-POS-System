@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import AdminLayout from '../../../Layout/AdminLayout'
 import profile from '../../../../../public/assets/images/profile.png'
-import { FaImage } from "react-icons/fa6";
 import { Link, useForm, usePage } from '@inertiajs/react';
 import { useRoute } from '../../../../../vendor/tightenco/ziggy'
 import { Toaster, toast } from 'sonner';

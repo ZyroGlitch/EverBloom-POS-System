@@ -43,19 +43,48 @@ export default function CustomerLayout({ children }) {
 
 
                 <nav className="d-flex flex-column gap-1">
-                    <Link href={route('customer.dashboard')} className='d-flex align-items-center gap-2 rounded p-2 sidebar-item'><BsFillGridFill /> Dashboard</Link>
+                    <Link
+                        href={route('customer.dashboard')}
+                        className={`d-flex align-items-center gap-2 rounded p-2 sidebar-item ${route().current('customer.dashboard') ? 'active' : ''}`}
+                    >
+                        <BsFillGridFill /> Dashboard
+                    </Link>
 
-                    <Link href={route('customer.product')} className='d-flex align-items-center gap-2 rounded p-2 sidebar-item'><BsBagFill /> Products</Link>
+                    <Link
+                        href={route('customer.product')}
+                        className={`d-flex align-items-center gap-2 rounded p-2 sidebar-item ${route().current('customer.product') ? 'active' : ''}`}
+                    >
+                        <BsBagFill /> Products
+                    </Link>
 
-                    <Link href={route('customer.cart')} className='d-flex align-items-center gap-2 rounded p-2 sidebar-item'><BsCartFill /> Cart</Link>
+                    <Link
+                        href={route('customer.cart')}
+                        className={`d-flex align-items-center gap-2 rounded p-2 sidebar-item ${route().current('customer.cart') ? 'active' : ''}`}
+                    >
+                        <BsCartFill /> Cart
+                    </Link>
 
-                    <Link href={route('customer.orders')} className='d-flex align-items-center gap-2 rounded p-2 sidebar-item'><BsClipboard2CheckFill /> Orders</Link>
+                    <Link
+                        href={route('customer.orders')}
+                        className={`d-flex align-items-center gap-2 rounded p-2 sidebar-item ${route().current('customer.orders') ? 'active' : ''}`}
+                    >
+                        <BsClipboard2CheckFill /> Orders
+                    </Link>
 
-                    <Link href={route('customer.profile')} className='d-flex align-items-center gap-2 rounded p-2 sidebar-item'><FaUserLarge /> Profile</Link>
+                    <Link
+                        href={route('customer.profile')}
+                        className={`d-flex align-items-center gap-2 rounded p-2 sidebar-item ${route().current('customer.profile') ? 'active' : ''}`}
+                    >
+                        <FaUserLarge /> Profile
+                    </Link>
                 </nav>
 
                 <div style={{ marginTop: '285px' }}>
-                    <Link href={route('customer.index')} className='d-flex align-items-center gap-2 rounded p-2 sidebar-item'><IoExit /> Logout</Link>
+                    <Link
+                        href={route('customer.index')}
+                        className={`d-flex align-items-center gap-2 rounded p-2 sidebar-item ${route().current('customer.index') ? 'active' : ''}`}
+                    ><IoExit /> Logout
+                    </Link>
                 </div>
 
             </div>
@@ -92,19 +121,49 @@ export default function CustomerLayout({ children }) {
                 </div>
                 <div class="offcanvas-body d-flex flex-column gap-1 bg-light">
                     <nav className="d-flex flex-column gap-1">
-                        <Link href={route('customer.dashboard')} className='d-flex align-items-center gap-2 rounded p-2 sidebar-item'><BsFillGridFill /> Dashboard</Link>
+                        <Link
+                            href={route('customer.dashboard')}
+                            className={`d-flex align-items-center gap-2 rounded p-2 sidebar-item ${route().current('customer.dashboard') ? 'active' : ''}`}
+                        >
+                            <BsFillGridFill /> Dashboard
+                        </Link>
 
-                        <Link href={route('customer.product')} className='d-flex align-items-center gap-2 rounded p-2 sidebar-item'><BsBagFill /> Products</Link>
+                        <Link
+                            href={route('customer.product')}
+                            className={`d-flex align-items-center gap-2 rounded p-2 sidebar-item ${route().current('customer.product') ? 'active' : ''}`}
+                        >
+                            <BsBagFill /> Products
+                        </Link>
 
-                        <Link href={route('customer.cart')} className='d-flex align-items-center gap-2 rounded p-2 sidebar-item'><BsCartFill /> Cart</Link>
+                        <Link
+                            href={route('customer.cart')}
+                            className={`d-flex align-items-center gap-2 rounded p-2 sidebar-item ${route().current('customer.dashboard') ? 'active' : ''}`}
+                        >
+                            <BsCartFill /> Cart
+                        </Link>
 
-                        <Link href={route('customer.orders')} className='d-flex align-items-center gap-2 rounded p-2 sidebar-item'><BsClipboard2CheckFill /> Orders</Link>
+                        <Link
+                            href={route('customer.orders')}
+                            className={`d-flex align-items-center gap-2 rounded p-2 sidebar-item ${route().current('customer.orders') ? 'active' : ''}`}
+                        >
+                            <BsClipboard2CheckFill /> Orders
+                        </Link>
 
-                        <Link href={route('customer.profile')} className='d-flex align-items-center gap-2 rounded p-2 sidebar-item'><FaUserLarge /> Profile</Link>
+                        <Link
+                            href={route('customer.profile')}
+                            className={`d-flex align-items-center gap-2 rounded p-2 sidebar-item ${route().current('customer.profile') ? 'active' : ''}`}
+                        >
+                            <FaUserLarge /> Profile
+                        </Link>
                     </nav>
 
                     <div style={{ marginTop: '235px' }}>
-                        <button onClick={handleLogout} className='d-flex align-items-center gap-2 rounded p-2 sidebar-item'><IoExit /> Logout</button>
+                        <button
+                            onClick={handleLogout}
+                            className={`d-flex align-items-center gap-2 rounded p-2 sidebar-item ${route().current('customer.index') ? 'active' : ''}`}
+                        >
+                            <IoExit /> Logout
+                        </button>
                     </div>
                 </div>
             </div>

@@ -1,7 +1,7 @@
 import React from 'react'
 import logo from '../../../public/assets/images/logo.png'
 import profile from '../../../public/assets/images/profile.png'
-import { Link } from '@inertiajs/react'
+import { Link, usePage } from '@inertiajs/react'
 import { BsFillGridFill, BsBagFill, BsCartFill, BsClipboard2CheckFill } from "react-icons/bs";
 import { IoExit, IoPeople } from "react-icons/io5";
 import { FaBars, FaUserLarge, FaCubes, FaCoins } from "react-icons/fa6";
@@ -10,6 +10,9 @@ import { useRoute } from '../../../vendor/tightenco/ziggy'
 
 export default function AdminLayout({ children }) {
     const route = useRoute();
+
+    // Get the authenticated user credentials
+    const { auth } = usePage().props
 
     return (
         <div className="d-flex vh-100 bg-light">
@@ -25,19 +28,50 @@ export default function AdminLayout({ children }) {
 
 
                 <nav className="d-flex flex-column gap-1">
-                    <Link href={route('admin.dashboard')} className='d-flex align-items-center gap-2 rounded p-2 sidebar-item'><BsFillGridFill /> Dashboard</Link>
+                    <Link
+                        href={route('admin.dashboard')}
+                        className={`d-flex align-items-center gap-2 rounded p-2 sidebar-item ${route().current('admin.dashboard') ? 'active' : ''}`}
+                    >
+                        <BsFillGridFill /> Dashboard
+                    </Link>
 
-                    <Link href={route('admin.sales')} className='d-flex align-items-center gap-2 rounded p-2 sidebar-item'><FaCoins /> Sales</Link>
 
-                    <Link href={route('admin.inventory')} className='d-flex align-items-center gap-2 rounded p-2 sidebar-item'><FaCubes /> Inventory</Link>
+                    <Link
+                        href={route('admin.sales')}
+                        className={`d-flex align-items-center gap-2 rounded p-2 sidebar-item ${route().current('admin.sales') ? 'active' : ''}`}
+                    >
+                        <FaCoins /> Sales
+                    </Link>
 
-                    <Link href={route('admin.employee')} className='d-flex align-items-center gap-2 rounded p-2 sidebar-item'><IoPeople /> Employee</Link>
+                    <Link
+                        href={route('admin.inventory')}
+                        className={`d-flex align-items-center gap-2 rounded p-2 sidebar-item ${route().current('admin.inventory') ? 'active' : ''}`}
+                    >
+                        <FaCubes /> Inventory
+                    </Link>
 
-                    <Link href={route('admin.profile')} className='d-flex align-items-center gap-2 rounded p-2 sidebar-item'><FaUserLarge /> Profile</Link>
+                    <Link
+                        href={route('admin.employee')}
+                        className={`d-flex align-items-center gap-2 rounded p-2 sidebar-item ${route().current('admin.employee') ? 'active' : ''}`}
+                    >
+                        <IoPeople /> Employee
+                    </Link>
+
+                    <Link
+                        href={route('admin.profile')}
+                        className={`d-flex align-items-center gap-2 rounded p-2 sidebar-item ${route().current('admin.profile') ? 'active' : ''}`}
+                    >
+                        <FaUserLarge /> Profile
+                    </Link>
                 </nav>
 
                 <div style={{ marginTop: '285px' }}>
-                    <Link href={route('customer.index')} className='d-flex align-items-center gap-2 rounded p-2 sidebar-item'><IoExit /> Logout</Link>
+                    <Link
+                        href={route('customer.index')}
+                        className={`d-flex align-items-center gap-2 rounded p-2 sidebar-item ${route().current('admin.index') ? 'active' : ''}`}
+                    >
+                        <IoExit /> Logout
+                    </Link>
                 </div>
 
             </div>
@@ -48,8 +82,8 @@ export default function AdminLayout({ children }) {
                     <div className="d-flex align-items-center gap-3">
                         <button className="btn btn-light humburger-hidden" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample"><FaBars /></button>
 
-                        <img src={profile} alt="profile" className="object-fit-cover rounded-circle border border-2 border-light shadow-lg" style={{ width: '45px', height: '45px' }} />
-                        <h5 className="text-light"><span className="text-warning">Hi!</span> Kyle Degosman</h5>
+                        <img src={auth.user ? `/storage/${auth.user.profile}` : profile} alt="profile" className="object-fit-cover rounded-circle border border-2 border-light shadow-lg" style={{ width: '45px', height: '45px' }} />
+                        <h5 className="text-light"><span className="text-warning">Hi!</span> {auth.user ? `${auth.user.firstname} ${auth.user.lastname}` : 'Guest'}</h5>
                     </div>
                 </nav>
 
@@ -74,19 +108,49 @@ export default function AdminLayout({ children }) {
                 </div>
                 <div class="offcanvas-body d-flex flex-column gap-1 bg-light">
                     <nav className="d-flex flex-column gap-1">
-                        <Link href={route('admin.dashboard')} className='d-flex align-items-center gap-2 rounded p-2 sidebar-item'><BsFillGridFill /> Dashboard</Link>
+                        <Link
+                            href={route('admin.dashboard')}
+                            className={`d-flex align-items-center gap-2 rounded p-2 sidebar-item ${route().current('admin.dashboard') ? 'active' : ''}`}
+                        >
+                            <BsFillGridFill /> Dashboard
+                        </Link>
 
-                        <Link href={route('admin.sales')} className='d-flex align-items-center gap-2 rounded p-2 sidebar-item'><FaCoins /> Sales</Link>
+                        <Link
+                            href={route('admin.sales')}
+                            className={`d-flex align-items-center gap-2 rounded p-2 sidebar-item ${route().current('admin.sales') ? 'active' : ''}`}
+                        >
+                            <FaCoins /> Sales
+                        </Link>
 
-                        <Link href={route('admin.inventory')} className='d-flex align-items-center gap-2 rounded p-2 sidebar-item'><FaCubes /> Inventory</Link>
+                        <Link
+                            href={route('admin.inventory')}
+                            className={`d-flex align-items-center gap-2 rounded p-2 sidebar-item ${route().current('admin.inventory') ? 'active' : ''}`}
+                        >
+                            <FaCubes /> Inventory
+                        </Link>
 
-                        <Link href={route('admin.employee')} className='d-flex align-items-center gap-2 rounded p-2 sidebar-item'><IoPeople /> Employee</Link>
+                        <Link
+                            href={route('admin.employee')}
+                            className={`d-flex align-items-center gap-2 rounded p-2 sidebar-item ${route().current('admin.employee') ? 'active' : ''}`}
+                        >
+                            <IoPeople /> Employee
+                        </Link>
 
-                        <Link href={route('admin.profile')} className='d-flex align-items-center gap-2 rounded p-2 sidebar-item'><FaUserLarge /> Profile</Link>
+                        <Link
+                            href={route('admin.profile')}
+                            className={`d-flex align-items-center gap-2 rounded p-2 sidebar-item ${route().current('admin.profile') ? 'active' : ''}`}
+                        >
+                            <FaUserLarge /> Profile
+                        </Link>
                     </nav>
 
                     <div style={{ marginTop: '235px' }}>
-                        <Link href={route('customer.index')} className='d-flex align-items-center gap-2 rounded p-2 sidebar-item'><IoExit /> Logout</Link>
+                        <Link
+                            href={route('customer.index')}
+                            className={`d-flex align-items-center gap-2 rounded p-2 sidebar-item ${route().current('admin.index') ? 'active' : ''}`}
+                        >
+                            <IoExit /> Logout
+                        </Link>
                     </div>
                 </div>
             </div>

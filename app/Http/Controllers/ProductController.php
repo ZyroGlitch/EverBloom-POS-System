@@ -51,4 +51,43 @@ class ProductController extends Controller
         $products = Product::latest()->paginate(6);
         return inertia('Customer/Product',['products' => $products]);
     }
+
+    public function viewProduct($product_id){
+        $products = Product::find($product_id);
+        return inertia('Admin/Inventory_Features/ViewProduct',
+        ['products' => $products]);
+    }
+
+    public function updateProduct(Request $request){
+        // dd($request);
+        $fields = $request->validate([
+            'product_name' => 'required',
+            'description' => 'required',
+            'price' => 'required',
+            'stocks' => 'required|integer',
+        ]);
+
+        $product = Product::where('id',$request->id)->update([
+            'product_name' => $fields['product_name'],
+            'description' => $fields['description'],
+            'price' => $fields['price'],
+            'stocks' => $fields['stocks'],
+        ]);
+
+        if($product){
+            return redirect()->route('inventory.viewProduct',['product_id' => $request->id])
+            ->with('success',$fields['product_name'] . ' product update successfully.');
+        }else{
+            return redirect()->back()->with('error','Updating product information failed.');
+        }
+    }
+
+    public function showProduct($product_id){
+        // dd($product_id);
+        $product = Product::find($product_id);
+
+        if($product){
+            return inertia('Customer/Product_Features/ShowProduct',['product' => $product]);
+        }
+    }
 }

@@ -61,8 +61,8 @@ function AddProduct() {
             <form onSubmit={submit}>
                 <nav aria-label="breadcrumb" className='mb-3'>
                     <ol class="breadcrumb fw-semibold">
-                        <Link href={route('admin.inventory')} className="breadcrumb-item text-success" style={{ textDecoration: 'none' }}>Back</Link>
-                        <li class="breadcrumb-item active" aria-current="page">New Product</li>
+                        <Link href={route('admin.inventory')} className="breadcrumb-item text-muted" style={{ textDecoration: 'none' }}>Back</Link>
+                        <li class="breadcrumb-item active text-success" aria-current="page">New Product</li>
                     </ol>
                 </nav>
 
@@ -99,7 +99,7 @@ function AddProduct() {
 
                         {
                             errors.image && (
-                                <div className="text-danger mt-2 mt-2">{errors.image}</div>
+                                <div className="text-danger mt-2">{errors.image}</div>
                             )
                         }
                     </div>

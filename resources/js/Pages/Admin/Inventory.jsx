@@ -51,7 +51,10 @@ function Inventory({ products }) {
                                         <td>{product.stocks}</td>
                                         <td className='text-success'>{product.status}</td>
                                         <td>
-                                            <Link href='' className='btn btn-primary'><FaEye /></Link>
+                                            <Link
+                                                href={route('inventory.viewProduct', { product_id: product.id })}
+                                                className='btn btn-primary'
+                                            ><FaEye /></Link>
                                         </td>
                                     </tr>
                                 ))

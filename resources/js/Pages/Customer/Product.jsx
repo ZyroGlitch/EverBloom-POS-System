@@ -1,9 +1,12 @@
 import React from 'react'
 import CustomerLayout from '../../Layout/CustomerLayout'
 import { Link } from '@inertiajs/react';
+import { useRoute } from '../../../../vendor/tightenco/ziggy';
 
 function Product({ products }) {
     console.log(products);
+
+    const route = useRoute();
 
     return (
         <div className='py-2'>
@@ -13,14 +16,17 @@ function Product({ products }) {
                         <div className="col-md-4 mb-4" key={product.id}>
                             <div className="card shadow rounded border-0">
                                 <div className="card-header bg-light text-center">
-                                    <img src={`/storage/${product.image}`} alt="image" className="object-fit-cover" style={{ width: '180px', height: '180px' }} />
+                                    <img src={`/storage/${product.image}`} alt="image" className="object-fit-contain" style={{ width: '180px', height: '180px' }} />
                                 </div>
                                 <div className="card-body bg-success text-light">
                                     <h4>{product.product_name}</h4>
                                     <h5>₱{product.price}</h5>
                                     <p className='mb-3'>{product.stocks} stocks available</p>
                                     <div className="d-flex align-items-stretch gap-3">
-                                        <Link className="btn btn-dark shadow w-100">Buy</Link>
+                                        <Link
+                                            href={route('customer.product.showProduct', { product_id: product.id })}
+                                            className="btn btn-dark shadow w-100"
+                                        >Buy</Link>
                                         <button className="btn btn-outline-light shadow w-100">Add to Cart</button>
                                     </div>
                                 </div>

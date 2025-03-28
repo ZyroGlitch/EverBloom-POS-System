@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react'
-import AdminLayout from '../../Layout/AdminLayout'
-import cover from '../../../../public/assets/images/coverpage.jpg'
-import { Link, useForm, usePage } from '@inertiajs/react'
-import { useRoute } from '../../../../vendor/tightenco/ziggy';
+import React, { useEffect, useState } from 'react';
+import AdminLayout from '../../../Layout/AdminLayout';
+import { Link, useForm, usePage } from '@inertiajs/react';
+import cover from '../../../../../public/assets/images/coverpage.jpg'
 import { FaEye, FaEyeSlash } from "react-icons/fa6";
-import { toast, Toaster } from 'sonner';
+import { useRoute } from '../../../../../vendor/tightenco/ziggy';
+import { Toaster, toast } from 'sonner';
 
-function Profile({ admin }) {
-    // console.log(admin);
+function ViewProfile({ user_info }) {
+    console.log(user_info);
 
     const route = useRoute();
 
@@ -26,53 +26,53 @@ function Profile({ admin }) {
     };
 
     const {
-        data: adminData, setData: setAdminData,
-        post: postAdminInfo, processing: processingAdminInfo,
-        errors: errorsAdminInfo, reset: resetAdminInfo
+        data: userData, setData: setUserData,
+        post: postUserInfo, processing: processingUserInfo,
+        errors: errorsUserInfo, reset: resetUserInfo
     } = useForm({
-        'id': admin[0].id,
-        'firstname': admin[0].firstname,
-        'lastname': admin[0].lastname,
-        'contact_number': admin[0].contact_number,
-        'username': admin[0].username,
+        'id': user_info.id,
+        'firstname': user_info.firstname,
+        'lastname': user_info.lastname,
+        'contact_number': user_info.contact_number,
+        'username': user_info.username,
     });
 
-    function submitAdminInfo(e) {
+    function submitUserInfo(e) {
         e.preventDefault();
-        postAdminInfo(route('admin.updateAdminInfo'), {
+        postUserInfo(route('employee.updateUserInfo'), {
             onSuccess() {
-                resetAdminInfo();
+                resetUserInfo();
             }
         });
     }
 
-    function cancelAdminInfo(e) {
+    function cancelUserInfo(e) {
         e.preventDefault();
-        resetAdminInfo();
+        resetUserInfo();
     }
 
     const {
-        data: adminPassword, setData: setAdminPassword,
-        post: postAdminPassword, processing: processingAdminPassword,
-        errors: errorsAdminPassword, reset: resetAdminPassword
+        data: userPassword, setData: setUserPassword,
+        post: postUserPassword, processing: processingPassword,
+        errors: errorsUserPassword, reset: resetUserPassword
     } = useForm({
-        'id': admin[0].id,
+        'id': user_info.id,
         'new_password': '',
         'confirm_password': ''
     });
 
     function submitUpdatePassword(e) {
         e.preventDefault();
-        postAdminPassword(route('admin.updateAdminPassword'), {
+        postUserPassword(route('employee.updatePassword'), {
             onSuccess() {
-                resetAdminPassword();
+                resetUserPassword();
             }
         });
     }
 
     function cancelUpdatePassword(e) {
         e.preventDefault();
-        resetAdminPassword();
+        resetUserPassword();
     }
 
     // Use useEffect to trigger toast notifications
@@ -83,7 +83,6 @@ function Profile({ admin }) {
         flash.error ? toast.error(flash.error) : null;
     }, [flash]);
 
-
     return (
         <div className='py-3'>
             {/* Initialize the Sooner Toaster */}
@@ -92,13 +91,17 @@ function Profile({ admin }) {
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb fw-semibold">
                     <Link href={route('admin.employee')} className="breadcrumb-item text-muted" style={{ textDecoration: 'none' }}>Back</Link>
-                    <li class="breadcrumb-item active text-success" aria-current="page">{admin[0].firstname} Profile</li>
+                    <li class="breadcrumb-item active text-success" aria-current="page">{user_info.firstname} Profile</li>
                 </ol>
             </nav>
 
             <div className="card shadow rounded border-0">
                 <div className="card-body bg-light p-0">
                     {/* Background Container */}
+                    {/* <div
+                        className="container-fluid bg-secondary position-relative"
+                        style={{ height: '150px' }}
+                    ></div> */}
                     <div
                         className="container-fluid bg-secondary position-relative"
                         style={{
@@ -113,14 +116,14 @@ function Profile({ admin }) {
                     {/* Profile Image Positioned on the Left */}
                     <div className="position-absolute d-flex align-items-center gap-4" style={{ top: '155px', left: '20px' }}>
                         <img
-                            src={`/storage/${admin[0].profile}`}
+                            src={`/storage/${user_info.profile}`}
                             alt="profile"
                             className="rounded-circle object-fit-cover shadow border border-3 border-light"
                             style={{ width: '150px', height: '150px' }}
                         />
                         <div className="d-flex flex-column mt-5">
-                            <h3 className='text-success'>{admin[0].firstname} {admin[0].lastname}</h3>
-                            <p className="text-muted">{admin[0].role}</p>
+                            <h3 className='text-success'>{user_info.firstname} {user_info.lastname}</h3>
+                            <p className="text-muted">{user_info.role}</p>
                         </div>
                     </div>
 
@@ -163,33 +166,29 @@ function Profile({ admin }) {
                                 role="tabpanel"
                                 aria-labelledby="details-tab"
                             >
-                                <form onSubmit={submitAdminInfo}>
+                                <form onSubmit={submitUserInfo}>
                                     <div className="px-3 py-4">
                                         <h5 className='mb-4'>Personal Details</h5>
                                         <div className="d-flex mb-5" style={{ gap: '180px' }}>
                                             <div className="d-flex flex-column gap-4">
                                                 <label
                                                     htmlFor="firstname"
-                                                    className="form-label d-flex align-items-center"
-                                                    style={{ height: '38px' }}
+                                                    className="form-label d-flex align-items-center" style={{ height: '38px' }}
                                                 >Firstname</label>
 
                                                 <label
                                                     htmlFor="lastname"
-                                                    className="form-label d-flex align-items-center"
-                                                    style={{ height: '38px' }}
+                                                    className="form-label d-flex align-items-center" style={{ height: '38px' }}
                                                 >Lastname</label>
 
                                                 <label
                                                     htmlFor="contact"
-                                                    className="form-label d-flex align-items-center"
-                                                    style={{ height: '38px' }}
+                                                    className="form-label d-flex align-items-center" style={{ height: '38px' }}
                                                 >Contact Number</label>
 
                                                 <label
                                                     htmlFor="username"
-                                                    className="form-label d-flex align-items-center"
-                                                    style={{ height: '38px' }}
+                                                    className="form-label d-flex align-items-center" style={{ height: '38px' }}
                                                 >Username</label>
                                             </div>
 
@@ -200,12 +199,12 @@ function Profile({ admin }) {
                                                         className="form-control shadow-sm"
                                                         id='firstname'
                                                         style={{ width: '500px' }}
-                                                        value={adminData.firstname}
-                                                        onChange={(e) => setAdminData('firstname', e.target.value)}
+                                                        value={userData.firstname}
+                                                        onChange={(e) => setUserData('firstname', e.target.value)}
                                                     />
                                                     {
-                                                        errorsAdminInfo.firstname && (
-                                                            <div className="text-danger mt-2">{errorsAdminInfo.firstname}</div>
+                                                        errorsUserInfo.firstname && (
+                                                            <div className="text-danger mt-2">{errorsUserInfo.firstname}</div>
                                                         )
                                                     }
                                                 </div>
@@ -216,12 +215,12 @@ function Profile({ admin }) {
                                                         className="form-control shadow-sm"
                                                         id='lastname'
                                                         style={{ width: '500px' }}
-                                                        value={adminData.lastname}
-                                                        onChange={(e) => setAdminData('lastname', e.target.value)}
+                                                        value={userData.lastname}
+                                                        onChange={(e) => setUserData('lastname', e.target.value)}
                                                     />
                                                     {
-                                                        errorsAdminInfo.lastname && (
-                                                            <div className="text-danger mt-2">{errorsAdminInfo.lastname}</div>
+                                                        errorsUserInfo.lastname && (
+                                                            <div className="text-danger mt-2">{errorsUserInfo.lastname}</div>
                                                         )
                                                     }
                                                 </div>
@@ -232,12 +231,12 @@ function Profile({ admin }) {
                                                         className="form-control shadow-sm"
                                                         id='contact'
                                                         style={{ width: '500px' }}
-                                                        value={adminData.contact_number}
-                                                        onChange={(e) => setAdminData('contact_number', e.target.value)}
+                                                        value={userData.contact_number}
+                                                        onChange={(e) => setUserData('contact_number', e.target.value)}
                                                     />
                                                     {
-                                                        errorsAdminInfo.contact_number && (
-                                                            <div className="text-danger mt-2">{errorsAdminInfo.contact_number}</div>
+                                                        errorsUserInfo.contact_number && (
+                                                            <div className="text-danger mt-2">{errorsUserInfo.contact_number}</div>
                                                         )
                                                     }
                                                 </div>
@@ -248,12 +247,12 @@ function Profile({ admin }) {
                                                         className="form-control shadow-sm"
                                                         id='username'
                                                         style={{ width: '500px' }}
-                                                        value={adminData.username}
-                                                        onChange={(e) => setAdminData('username', e.target.value)}
+                                                        value={userData.username}
+                                                        onChange={(e) => setUserData('username', e.target.value)}
                                                     />
                                                     {
-                                                        errorsAdminInfo.username && (
-                                                            <div className="text-danger mt-2">{errorsAdminInfo.username}</div>
+                                                        errorsUserInfo.username && (
+                                                            <div className="text-danger mt-2">{errorsUserInfo.username}</div>
                                                         )
                                                     }
                                                 </div>
@@ -261,16 +260,17 @@ function Profile({ admin }) {
                                         </div>
 
                                         <div className="d-flex align-items-center gap-3">
+                                            {/* <Link href={route('employee.viewProfile', { user_id: user_info.id })} className='btn btn-outline-secondary shadow-sm'>Cancel</Link> */}
                                             <Link
                                                 className='btn btn-outline-secondary shadow-sm'
-                                                onClick={cancelAdminInfo}
+                                                onClick={cancelUserInfo}
                                             >Cancel</Link>
 
                                             <input
                                                 type='submit'
                                                 className='btn btn-success shadow-sm'
                                                 value='Update information'
-                                                disabled={processingAdminInfo}
+                                                disabled={processingUserInfo}
                                             />
                                         </div>
                                     </div>
@@ -291,20 +291,17 @@ function Profile({ admin }) {
                                             <div className="d-flex flex-column gap-4">
                                                 <label
                                                     htmlFor="current"
-                                                    className="form-label d-flex align-items-center"
-                                                    style={{ height: '38px' }}
+                                                    className="form-label d-flex align-items-center" style={{ height: '38px' }}
                                                 >Current password</label>
 
                                                 <label
                                                     htmlFor="new"
-                                                    className="form-label d-flex align-items-center"
-                                                    style={{ height: '38px' }}
+                                                    className="form-label d-flex align-items-center" style={{ height: '38px' }}
                                                 >New password</label>
 
                                                 <label
                                                     htmlFor="confirm"
-                                                    className="form-label d-flex align-items-center"
-                                                    style={{ height: '38px' }}
+                                                    className="form-label d-flex align-items-center" style={{ height: '38px' }}
                                                 >Confirm new password</label>
                                             </div>
 
@@ -323,8 +320,8 @@ function Profile({ admin }) {
                                                         className="form-control shadow-sm"
                                                         id='new'
                                                         style={{ width: '500px' }}
-                                                        value={adminPassword.new_password}
-                                                        onChange={(e) => setAdminPassword('new_password', e.target.value)}
+                                                        value={userPassword.new_password}
+                                                        onChange={(e) => setUserPassword('new_password', e.target.value)}
                                                     />
                                                     {
                                                         newPass ?
@@ -342,8 +339,8 @@ function Profile({ admin }) {
                                                     }
                                                 </div>
                                                 {
-                                                    errorsAdminPassword.new_password && (
-                                                        <div className="text-danger mt-2">{errorsAdminPassword.new_password}</div>
+                                                    errorsUserPassword.new_password && (
+                                                        <div className="text-danger mt-2">{errorsUserPassword.new_password}</div>
                                                     )
                                                 }
 
@@ -353,8 +350,8 @@ function Profile({ admin }) {
                                                         className="form-control shadow-sm"
                                                         id='confirm'
                                                         style={{ width: '500px' }}
-                                                        value={adminPassword.confirm_password}
-                                                        onChange={(e) => setAdminPassword('confirm_password', e.target.value)}
+                                                        value={userPassword.confirm_password}
+                                                        onChange={(e) => setUserPassword('confirm_password', e.target.value)}
                                                     />
 
                                                     {
@@ -373,10 +370,11 @@ function Profile({ admin }) {
                                                     }
                                                 </div>
                                                 {
-                                                    errorsAdminPassword.confirm_password && (
-                                                        <div className="text-danger mt-2">{errorsAdminPassword.confirm_password}</div>
+                                                    errorsUserPassword.confirm_password && (
+                                                        <div className="text-danger mt-2">{errorsUserPassword.confirm_password}</div>
                                                     )
                                                 }
+
                                             </div>
                                         </div>
 
@@ -390,7 +388,7 @@ function Profile({ admin }) {
                                                 type='submit'
                                                 className='btn btn-success shadow-sm'
                                                 value='Update password'
-                                                disabled={processingAdminPassword}
+                                                disabled={processingPassword}
                                             />
                                         </div>
                                     </div>
@@ -401,8 +399,8 @@ function Profile({ admin }) {
                 </div>
             </div>
         </div>
-    )
+    );
 }
 
-Profile.layout = page => <AdminLayout children={page} />
-export default Profile
+ViewProfile.layout = page => <AdminLayout children={page} />;
+export default ViewProfile;

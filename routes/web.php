@@ -27,8 +27,16 @@ Route::middleware(['auth', EmployeeMiddleware::class])->group(function () {
         return inertia('Customer/Dashboard');
     })->name('customer.dashboard');
 
+    // ----------------------------------------------------------------------------
+    
+    // Product-Feature Routes
     Route::get('/product', [ProductController::class,'displayProduct'])
     ->name('customer.product');
+
+    Route::get('/product/showProduct/{product_id}', [ProductController::class,'showProduct'])
+    ->name('customer.product.showProduct');
+
+    // ----------------------------------------------------------------------------
 
     Route::get('/cart', function () {
         return inertia('Customer/Cart');
@@ -56,15 +64,24 @@ Route::middleware(['auth',AdminMiddleware::class])->group(function () {
         return inertia('Admin/Sales');
     })->name('admin.sales');
 
-    Route::get('/admin/inventory', [ProductController::class,'showInventoryProduct'])->name('admin.inventory');
+    Route::get('/admin/inventory', [ProductController::class,'showInventoryProduct'])
+    ->name('admin.inventory');
 
     Route::get('/admin/employee', [UserController::class,'displayEmployee'])
     ->name('admin.employee');
 
-    Route::get('/admin/profile', function () {
-        return inertia('Admin/Profile');
-    })->name('admin.profile');
+    // ----------------------------------------------------------------------------
+    // Admin-Features Routes
+    Route::get('/admin/profile', [UserController::class,'adminProfile'])
+    ->name('admin.profile');
 
+    Route::post('/admin/profile/updateAdminInfo',[UserController::class,'updateAdminInfo'])
+    ->name('admin.updateAdminInfo');
+
+    Route::post('/admin/profile/updateAdminPassword',[UserController::class,'updateAdminPassword'])
+    ->name('admin.updateAdminPassword');
+
+    // ----------------------------------------------------------------------------
     // Employee-Feature Routes
     Route::get('/admin/employee/addEmployee', function () {
         return inertia('Admin/Employee_Features/AddEmployee');
@@ -72,12 +89,28 @@ Route::middleware(['auth',AdminMiddleware::class])->group(function () {
 
     Route::post('/admin/employee/addEmployee/store',[UserController::class,'storeEmployeeData'])->name('employee.storeEmployeeData');
 
+    Route::get('/admin/employee/viewProfile/{user_id}', [UserController::class,'viewEmployeeProfile'])
+    ->name('employee.viewProfile');
+
+    Route::post('/admin/employee/viewProfile/updateUserInfo',[UserController::class,'updateUserInfo'])->name('employee.updateUserInfo');
+
+    Route::post('/admin/employee/viewProfile/updatePassword',[UserController::class,'updatePassword'])->name('employee.updatePassword');
+
+    // ----------------------------------------------------------------------------
+
     // Inventory-Feature Routes
     Route::get('/admin/inventory/addProduct', function () {
         return inertia('Admin/Inventory_Features/AddProduct');
     })->name('inventory.addProduct');
 
     Route::post('/admin/inventory/addProduct/store',[ProductController::class,'storeProduct'])->name('inventory.storeProduct');
+
+    Route::get('/admin/inventory/viewProduct/{product_id}', [ProductController::class,'viewProduct'])
+    ->name('inventory.viewProduct');
+
+    Route::post('/admin/inventory/viewProduct/updateProduct',[ProductController::class,'updateProduct'])
+    ->name('inventory.updateProduct');
+    // ----------------------------------------------------------------------------
 
     Route::post('/admin/logout', [UserController::class,'adminLogout'])->withoutMiddleware('auth')
     ->name('admin.logout');

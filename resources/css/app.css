@@ -15,7 +15,8 @@ h6 {
     padding: 0 !important;
 }
 
-p {
+p,
+label {
     margin: 0 !important;
     padding: 0 !important;
 }
@@ -33,7 +34,13 @@ p {
     text-decoration: none;
 }
 
-.sidebar-item:hover {
+/* Apply hover effect only when the link is NOT active */
+.sidebar-item:not(.active):hover {
+    color: #198754;
+}
+
+/* Active link styling */
+.sidebar-item.active {
     background-color: #198754;
     color: white;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
