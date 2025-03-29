@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\AdminMiddleware;
@@ -34,13 +35,24 @@ Route::middleware(['auth', EmployeeMiddleware::class])->group(function () {
     ->name('customer.product');
 
     Route::get('/product/showProduct/{product_id}', [ProductController::class,'showProduct'])
-    ->name('customer.product.showProduct');
+    ->name('customer.showProduct');
+
+    Route::post('/product/showProduct/addToCart', [ProductController::class,'addToCart'])
+    ->name('customer.addToCart');
 
     // ----------------------------------------------------------------------------
 
-    Route::get('/cart', function () {
-        return inertia('Customer/Cart');
-    })->name('customer.cart');
+    // Cart-Feature Routes
+    Route::get('/cart', [CartController::class,'cart'])
+    ->name('customer.cart');
+
+    Route::post('/cart/checkout', [CartController::class,'checkout'])
+    ->name('customer.checkout');
+
+    Route::get('/cart/checkout/invoice/{order_id}', [CartController::class,'invoice'])
+    ->name('customer.invoice');
+
+    // ----------------------------------------------------------------------------
 
     Route::get('/profile', function () {
         return inertia('Customer/Profile');

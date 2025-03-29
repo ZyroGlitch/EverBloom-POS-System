@@ -24,10 +24,9 @@ function Product({ products }) {
                                     <p className='mb-3'>{product.stocks} stocks available</p>
                                     <div className="d-flex align-items-stretch gap-3">
                                         <Link
-                                            href={route('customer.product.showProduct', { product_id: product.id })}
+                                            href={route('customer.showProduct', { product_id: product.id })}
                                             className="btn btn-dark shadow w-100"
                                         >Buy</Link>
-                                        <button className="btn btn-outline-light shadow w-100">Add to Cart</button>
                                     </div>
                                 </div>
                             </div>
