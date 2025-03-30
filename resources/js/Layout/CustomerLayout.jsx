@@ -44,13 +44,6 @@ export default function CustomerLayout({ children }) {
 
                 <nav className="d-flex flex-column gap-1">
                     <Link
-                        href={route('customer.dashboard')}
-                        className={`d-flex align-items-center gap-2 rounded p-2 sidebar-item ${route().current('customer.dashboard') ? 'active' : ''}`}
-                    >
-                        <BsFillGridFill /> Dashboard
-                    </Link>
-
-                    <Link
                         href={route('customer.product')}
                         className={`d-flex align-items-center gap-2 rounded p-2 sidebar-item ${route().current('customer.product') ? 'active' : ''}`}
                     >
@@ -79,14 +72,13 @@ export default function CustomerLayout({ children }) {
                     </Link>
                 </nav>
 
-                <div style={{ marginTop: '285px' }}>
+                <div style={{ position: 'absolute', bottom: '2vh' }}>
                     <Link
                         href={route('customer.index')}
                         className={`d-flex align-items-center gap-2 rounded p-2 sidebar-item ${route().current('customer.index') ? 'active' : ''}`}
                     ><IoExit /> Logout
                     </Link>
                 </div>
-
             </div>
 
             {/* Content Area (Scrollable) */}
@@ -122,13 +114,6 @@ export default function CustomerLayout({ children }) {
                 <div class="offcanvas-body d-flex flex-column gap-1 bg-light">
                     <nav className="d-flex flex-column gap-1">
                         <Link
-                            href={route('customer.dashboard')}
-                            className={`d-flex align-items-center gap-2 rounded p-2 sidebar-item ${route().current('customer.dashboard') ? 'active' : ''}`}
-                        >
-                            <BsFillGridFill /> Dashboard
-                        </Link>
-
-                        <Link
                             href={route('customer.product')}
                             className={`d-flex align-items-center gap-2 rounded p-2 sidebar-item ${route().current('customer.product') ? 'active' : ''}`}
                         >
@@ -157,13 +142,12 @@ export default function CustomerLayout({ children }) {
                         </Link>
                     </nav>
 
-                    <div style={{ marginTop: '235px' }}>
-                        <button
-                            onClick={handleLogout}
+                    <div style={{ position: 'absolute', bottom: '2vh' }}>
+                        <Link
+                            href={route('customer.index')}
                             className={`d-flex align-items-center gap-2 rounded p-2 sidebar-item ${route().current('customer.index') ? 'active' : ''}`}
-                        >
-                            <IoExit /> Logout
-                        </button>
+                        ><IoExit /> Logout
+                        </Link>
                     </div>
                 </div>
             </div>

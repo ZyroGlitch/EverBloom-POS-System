@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\AdminMiddleware;
@@ -23,12 +24,8 @@ use Illuminate\Support\Facades\Route;
     Route::post('/authentication', [UserController::class,'authentication'])
     ->name('customer.authentication');
 
-Route::middleware(['auth', EmployeeMiddleware::class])->group(function () {
-    Route::get('/dashboard', function () {
-        return inertia('Customer/Dashboard');
-    })->name('customer.dashboard');
 
-    // ----------------------------------------------------------------------------
+Route::middleware(['auth', EmployeeMiddleware::class])->group(function () {
     
     // Product-Feature Routes
     Route::get('/product', [ProductController::class,'displayProduct'])
@@ -54,27 +51,43 @@ Route::middleware(['auth', EmployeeMiddleware::class])->group(function () {
 
     // ----------------------------------------------------------------------------
 
-    Route::get('/profile', function () {
-        return inertia('Customer/Profile');
-    })->name('customer.profile');
+    // Profile Routes
+    Route::get('/profile', [UserController::class,'customer_profile'])
+    ->name('customer.profile');
 
-    Route::get('/orders', function () {
-        return inertia('Customer/Orders');
-    })->name('customer.orders');
+    Route::post('/profile/updateProfileInfo',[UserController::class,'updateProfileInfo'])
+    ->name('customer.updateProfileInfo');
+
+    Route::post('/profile/updateProfilePassword',[UserController::class,'updateProfilePassword'])
+    ->name('customer.updateProfilePassword');
+
+     // ----------------------------------------------------------------------------
+
+    Route::get('/orders', [OrderController::class,'orders'])->name('customer.orders');
 
     Route::post('/employee/logout', [UserController::class,'employeeLogout'])
     ->name('employee.logout');
 });
 
+
 Route::middleware(['auth',AdminMiddleware::class])->group(function () {
     // Admin Routes
-    Route::get('/admin/dashboard', function () {
-        return inertia('Admin/Dashboard');
-    })->name('admin.dashboard');
+    Route::get('/admin/dashboard', [UserController::class,'dashboard'])
+    ->name('admin.dashboard');
 
-    Route::get('/admin/sales', function () {
-        return inertia('Admin/Sales');
-    })->name('admin.sales');
+    // ----------------------------------------------------------------------------
+
+    // Sales-Features Routes
+    Route::get('/admin/sales/{order_id?}', [UserController::class,'sales'])
+    ->name('admin.sales');
+
+    Route::get('/admin/sales/invoice/{order_id}', [CartController::class,'downloadInvoice'])
+    ->name('admin.invoice');
+
+    Route::post('/admin/sales/searchEmployee', [UserController::class,'searchEmployee'])
+    ->name('admin.searchEmployee');
+
+    // ----------------------------------------------------------------------------
 
     Route::get('/admin/inventory', [ProductController::class,'showInventoryProduct'])
     ->name('admin.inventory');

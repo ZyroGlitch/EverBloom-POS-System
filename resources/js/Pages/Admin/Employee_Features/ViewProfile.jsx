@@ -98,10 +98,6 @@ function ViewProfile({ user_info }) {
             <div className="card shadow rounded border-0">
                 <div className="card-body bg-light p-0">
                     {/* Background Container */}
-                    {/* <div
-                        className="container-fluid bg-secondary position-relative"
-                        style={{ height: '150px' }}
-                    ></div> */}
                     <div
                         className="container-fluid bg-secondary position-relative"
                         style={{

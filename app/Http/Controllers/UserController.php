@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
+use App\Models\OrderDetail;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -34,7 +36,7 @@ class UserController extends Controller
             $user = auth()->user(); // Get the authenticated user
 
             if ($user->role === 'Employee') {
-                return redirect()->route('customer.dashboard');
+                return redirect()->route('customer.product');
 
             } elseif ($user->role === 'Admin') {
                 return redirect()->route('admin.dashboard');
@@ -43,6 +45,16 @@ class UserController extends Controller
             // Redirect back to login with error message
             return redirect()->back()->with('error', 'Incorrect Username or Password!');
         }
+    }
+
+    public function dashboard(){
+        $sales_revenue = Order::sum('total');
+        $product_sold = Order::sum('quantity');
+
+        return inertia('Admin/Dashboard',[
+            'sales_revenue' => $sales_revenue,
+            'product_sold' => $product_sold,
+        ]);
     }
     
     public function storeEmployeeData(Request $request){
@@ -284,6 +296,74 @@ class UserController extends Controller
         }
     }
 
+    public function sales($order_id = null){
+
+        $employees = User::where('role','Employee')->get();
+
+        if($order_id == null){
+            $order_id = OrderDetail::select('order_id')
+            ->distinct()
+            ->get();
+
+            $orders = Order::latest()->paginate(12);
+
+            return inertia('Admin/Sales',[
+                'employees' => $employees,
+                'order_id' => $order_id,
+                'orders' => $orders,
+            ]);
+
+        }else{
+            // dd('Fetch Order Details');
+            $order_details = OrderDetail::with('product')
+            ->where('order_id',$order_id)
+            ->latest()
+            ->paginate(5);
+            
+            return inertia('Admin/Sales',[
+                'employees' => $employees,
+                'order_id' => null,
+                'orders' => $order_details,
+            ]);
+        }
+        
+    }
+
+    public function searchEmployee(Request $request){
+        // dd($request);
+
+        // Search for employees where the firstname starts with the input (case-insensitive)
+        $employeeExist = User::whereRaw('LOWER(firstname) LIKE ?', [strtolower($request->search) . '%'])->get();
+
+        // dd($employeeExist);
+
+        if($request->order_id == null){
+            $order_id = OrderDetail::select('order_id')
+            ->distinct()
+            ->get();
+
+            $orders = Order::latest()->paginate(12);
+
+            return inertia('Admin/Sales',[
+                'employees' => $employeeExist,
+                'order_id' => $order_id,
+                'orders' => $orders,
+            ]);
+
+        }else{
+            // dd('Fetch Order Details');
+            $order_details = OrderDetail::with('product')
+            ->where('order_id',$request->order_id)
+            ->latest()
+            ->paginate(5);
+            
+            return inertia('Admin/Sales',[
+                'employees' => $employeeExist,
+                'order_id' => null,
+                'orders' => $order_details,
+            ]);
+        }
+    }
 
     public function employeeLogout(Request $request){
         Auth::logout();
@@ -294,4 +374,114 @@ class UserController extends Controller
 
         return redirect()->route('customer.index');
     }
+
+    // Customer Functions
+    public function customer_profile(){
+        $user = auth()->user();
+        $customer_profile = User::find($user->id);
+
+        return inertia('Customer/Profile', [
+            'user_info' => $customer_profile
+        ]);
+    }
+
+    public function updateProfileInfo(Request $request){
+        // dd($request->id);
+        if($request->contact_number !== null){
+            $existingContacts = User::where('contact_number',$request->contact_number)->first();
+            // dd($existingContacts);
+
+            if($existingContacts !== null){
+                // Check if the existing record id is the same with parameter id
+                if($existingContacts->id == $request->id){
+                    $field = $request->validate([
+                        'firstname' => 'required',
+                        'lastname' => 'required',
+                        'contact_number' => 'required|min:11|max:11',
+                        'username' => 'required',
+                    ]);
+                }else{
+                    $field = $request->validate([
+                        'firstname' => 'required',
+                        'lastname' => 'required',
+                        'contact_number' => 'required|min:11|max:11|unique:users,contact_number',
+                        'username' => 'required',
+                    ]);
+                }   
+            }else{
+                $field = $request->validate([
+                    'firstname' => 'required',
+                    'lastname' => 'required',
+                    'contact_number' => 'required|min:11|max:11|unique:users,contact_number',
+                    'username' => 'required',
+                ]);
+            }
+
+        }else{
+            $field = $request->validate([
+                'firstname' => 'required',
+                'lastname' => 'required',
+                'contact_number' => 'required|min:11|max:11|unique:users,contact_number',
+                'username' => 'required',
+            ]);
+        }
+
+        if($field){
+            $data = User::where('id',$request->id)->update([
+                'firstname' => $request->firstname,
+                'lastname' => $request->lastname,
+                'contact_number' => $request->contact_number,
+                'username' => $request->username,
+            ]);
+
+            if($data){
+                return redirect()->route('customer.profile')
+                ->with('success',$field['firstname' ] . ' information update successfully.');
+            }else{
+                return redirect()->back()-with('error','User info failed to update.');
+            }
+        }
+    }
+
+    public function updateProfilePassword(Request $request){
+        // dd($request);
+        $fields = $request->validate([
+            'new_password' => [
+            'required',
+            'string',
+            Password::min(8)
+                ->letters()
+                ->mixedCase()
+                ->numbers()
+                ->symbols(),
+        ],
+        'confirm_password' => [
+            'required',
+            'string',
+            Password::min(8)
+                ->letters()
+                ->mixedCase()
+                ->numbers()
+                ->symbols(),
+        ],
+        ]);
+
+        if($fields['new_password'] === $fields['confirm_password']){
+            $fields['new_password'] = Hash::make($fields['new_password']);
+
+            $user = User::where('id',$request->id)->update([
+                'password' =>  $fields['new_password'],
+            ]);
+
+            if($user){
+                return redirect()->route('customer.profile')
+                ->with('success','Password update successfully.');
+            }else{
+                return redirect()->back()-with('error','Updating password failed.');
+            }
+        }
+    }
+
+
+    
 }

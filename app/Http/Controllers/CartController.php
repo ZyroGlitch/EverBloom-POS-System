@@ -107,4 +107,18 @@ class CartController extends Controller
             'orderDetails' => $orderDetails,
         ]);
     }
+
+    public function downloadInvoice($order_id){
+        // dd('Im In: ' . $order_id);
+        $order = Order::find($order_id);
+
+        $orderDetails = OrderDetail::with(['product','user'])
+        ->where('order_id',$order_id)
+        ->get();
+
+        return inertia('Admin/InvoiceReceipt',[
+            'order' => $order,
+            'orderDetails' => $orderDetails,
+        ]);
+    }
 }
