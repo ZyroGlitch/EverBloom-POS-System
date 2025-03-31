@@ -3,10 +3,13 @@ import { FaCoins } from "react-icons/fa6";
 import { BsBagFill } from "react-icons/bs";
 import SalesChart from '../../Layout/SalesChart';
 import AdminLayout from '../../Layout/AdminLayout'
+import InventoryLevelChart from '../../Layout/InventoryLevelChart';
+import { Head } from '@inertiajs/react';
 
-function Dashboard({ sales_revenue, product_sold }) {
+function Dashboard({ sales_revenue, product_sold, topSellingProducts, inventoryLevels }) {
     // console.log(sales_revenue);
     // console.log(product_sold);
+    // console.log(topSellingProducts);
 
     return (
         <div>
@@ -37,9 +40,11 @@ function Dashboard({ sales_revenue, product_sold }) {
                 </div>
             </div>
 
-            <div>
-                <h4>Sales Dashboard</h4>
-                <SalesChart />
+            <div className='mb-5'>
+                <SalesChart topSellingProducts={topSellingProducts} />
+            </div>
+            <div className='mb-5'>
+                <InventoryLevelChart inventoryData={inventoryLevels} />
             </div>
         </div>
     )

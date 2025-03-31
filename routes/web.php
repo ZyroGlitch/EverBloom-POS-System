@@ -84,8 +84,11 @@ Route::middleware(['auth',AdminMiddleware::class])->group(function () {
     Route::get('/admin/sales/invoice/{order_id}', [CartController::class,'downloadInvoice'])
     ->name('admin.invoice');
 
-    Route::post('/admin/sales/searchEmployee', [UserController::class,'searchEmployee'])
-    ->name('admin.searchEmployee');
+    Route::post('/admin/sales/searchedOrderID', [UserController::class,'searchedOrderID'])
+    ->name('admin.searchedOrderID');
+
+    Route::get('/admin/sales/selectedEmployee/{user_id}', [UserController::class,'selectedEmployee'])
+    ->name('admin.selectedEmployee');
 
     // ----------------------------------------------------------------------------
 

@@ -10,60 +10,44 @@ import {
     Legend
 } from "chart.js";
 
-// Register required Chart.js components
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-export default function SalesChart() {
-    // Dummy sales data for visualization
-    const salesData = [
-        { month: "Jan", totalSales: 5000 },
-        { month: "Feb", totalSales: 7000 },
-        { month: "Mar", totalSales: 8000 },
-        { month: "Apr", totalSales: 6000 },
-        { month: "May", totalSales: 9500 },
-        { month: "Jun", totalSales: 7200 },
-        { month: "Jul", totalSales: 8100 },
-        { month: "Aug", totalSales: 8700 },
-        { month: "Sep", totalSales: 9100 },
-        { month: "Oct", totalSales: 7300 },
-        { month: "Nov", totalSales: 8500 },
-        { month: "Dec", totalSales: 9900 },
-    ];
+export default function SalesChart({ topSellingProducts }) {
+    if (!topSellingProducts || topSellingProducts.length === 0) {
+        return <p>Loading chart...</p>;
+    }
 
     const data = {
-        labels: salesData.map((item) => item.month), // Months as labels
+        labels: topSellingProducts.map((item) => item.product.product_name),
         datasets: [
             {
-                label: "Total Sales",
-                data: salesData.map((item) => item.totalSales), // Sales numbers
-                backgroundColor: "rgba(75, 192, 192, 0.6)", // Bar color
-                borderColor: "rgba(75, 192, 192, 1)",
+                label: "Units Sold",
+                data: topSellingProducts.map((item) => Number(item.total_sales)),
+                backgroundColor: "rgba(34, 197, 94, 0.8)", // Fresh green (Tailwind Green-500)
+                borderColor: "rgba(34, 197, 94, 1)", // Darker green border
                 borderWidth: 1,
             },
         ],
     };
 
     const options = {
+        indexAxis: "y",
         responsive: true,
         plugins: {
-            legend: {
-                position: "top",
-            },
-            title: {
-                display: true,
-                text: "Monthly Sales Report",
-            },
+            legend: { display: true, position: "top" },
+            title: { display: true, text: "Top-Selling Products", font: { size: 18 } },
+            tooltip: { enabled: true },
         },
         scales: {
-            y: {
-                beginAtZero: true, // Ensures bars start from zero
-            },
+            x: { beginAtZero: true, title: { display: true, text: "Number of Sales" } },
+            y: { title: { display: true, text: "Product Names" } },
         },
     };
 
     return (
-        <div className="w-100 m-0 p-3">
+        <div className="w-full p-3">
             <Bar data={data} options={options} />
         </div>
     );
 }
+

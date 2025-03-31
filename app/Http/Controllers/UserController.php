@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Order;
-use App\Models\OrderDetail;
 use App\Models\User;
+use App\Models\Order;
+use App\Models\Product;
+use App\Models\OrderDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -51,9 +52,22 @@ class UserController extends Controller
         $sales_revenue = Order::sum('total');
         $product_sold = Order::sum('quantity');
 
+        $topSellingProducts = OrderDetail::with('product')
+        ->selectRaw('product_id, SUM(quantity) as total_sales')
+        ->groupBy('product_id')
+        ->orderByDesc('total_sales') // Order by highest quantity
+        ->get();
+
+        // dd($topSellingProducts);
+
+        $inventoryLevels = Product::select('product_name', 'stocks')->get();
+        // dd($inventoryLevels);
+
         return inertia('Admin/Dashboard',[
             'sales_revenue' => $sales_revenue,
             'product_sold' => $product_sold,
+            'topSellingProducts' => $topSellingProducts,
+            'inventoryLevels' => $inventoryLevels,
         ]);
     }
     
@@ -303,6 +317,7 @@ class UserController extends Controller
         if($order_id == null){
             $order_id = OrderDetail::select('order_id')
             ->distinct()
+            ->latest()
             ->get();
 
             $orders = Order::latest()->paginate(12);
@@ -311,6 +326,7 @@ class UserController extends Controller
                 'employees' => $employees,
                 'order_id' => $order_id,
                 'orders' => $orders,
+                'currentSelected_ID' => 'All',
             ]);
 
         }else{
@@ -324,45 +340,90 @@ class UserController extends Controller
                 'employees' => $employees,
                 'order_id' => null,
                 'orders' => $order_details,
+                'currentSelected_ID' => 'All',
             ]);
-        }
-        
+        } 
     }
 
-    public function searchEmployee(Request $request){
-        // dd($request);
+    public function selectedEmployee($user_id){
+        // dd($user_id);
 
-        // Search for employees where the firstname starts with the input (case-insensitive)
-        $employeeExist = User::whereRaw('LOWER(firstname) LIKE ?', [strtolower($request->search) . '%'])->get();
+        if($user_id != 'All'){
+            $employees = User::where('role','Employee')->get();
 
-        // dd($employeeExist);
+            $order_id = OrderDetail::select('order_id')
+            ->where('user_id',$user_id)
+            ->distinct()
+            ->latest()
+            ->get();
 
-        if($request->order_id == null){
+            $orders = Order::where('user_id',$user_id)
+            ->latest()
+            ->paginate(12);
+
+            return inertia('Admin/Sales',[
+                'employees' => $employees,
+                'order_id' => $order_id,
+                'orders' => $orders,
+                'currentSelected_ID' => $user_id,
+            ]);
+        }else{
+            $employees = User::where('role','Employee')->get();
+
             $order_id = OrderDetail::select('order_id')
             ->distinct()
+            ->latest()
             ->get();
 
             $orders = Order::latest()->paginate(12);
 
             return inertia('Admin/Sales',[
-                'employees' => $employeeExist,
+                'employees' => $employees,
                 'order_id' => $order_id,
                 'orders' => $orders,
-            ]);
-
-        }else{
-            // dd('Fetch Order Details');
-            $order_details = OrderDetail::with('product')
-            ->where('order_id',$request->order_id)
-            ->latest()
-            ->paginate(5);
-            
-            return inertia('Admin/Sales',[
-                'employees' => $employeeExist,
-                'order_id' => null,
-                'orders' => $order_details,
+                'currentSelected_ID' => 'All',
             ]);
         }
+    }
+
+    public function searchedOrderID(Request $request){
+        $employees = User::where('role','Employee')->get();
+
+            $order_id = OrderDetail::select('order_id')
+            ->where('order_id',$request->order_id)
+            ->distinct()
+            ->first();
+
+            // dd($order_id);
+            // Check if the order id search are existing or not
+            if($order_id == null){
+                $employees = User::where('role','Employee')->get();
+
+                $order_id = OrderDetail::select('order_id')
+                ->distinct()
+                ->latest()
+                ->get();
+
+                $orders = Order::latest()->paginate(12);
+
+                return inertia('Admin/Sales',[
+                    'employees' => $employees,
+                    'order_id' => $order_id,
+                    'orders' => $orders,
+                    'currentSelected_ID' => 'All',
+                ]);
+            }
+
+            $orders = Order::where('id',$request->order_id)
+            ->latest()
+            ->paginate(12);
+
+            return inertia('Admin/Sales',[
+                'employees' => $employees,
+                'order_id' => $order_id,
+                'orders' => $orders,
+                'currentSelected_ID' => 'All',
+            ]);
     }
 
     public function employeeLogout(Request $request){
