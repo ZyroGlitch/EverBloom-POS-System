@@ -139,7 +139,7 @@ function Sales({ employees, order_id, orders, currentSelected_ID }) {
                                         orders.data.map((order, index) => (
                                             <tr className='align-middle' key={index}>
                                                 <td className='text-start'>
-                                                    {Array.isArray(order_id)
+                                                    #TUNGAL{Array.isArray(order_id)
                                                         ? order_id[index]?.order_id
                                                         : order_id?.order_id
                                                     }
@@ -158,9 +158,9 @@ function Sales({ employees, order_id, orders, currentSelected_ID }) {
                                                                     ? order_id[index]?.order_id
                                                                     : order_id?.order_id
                                                         })}
-                                                        className='text-dark'
+                                                        className='btn btn-primary btn-sm d-flex justify-content-center align-items-center gap-2'
                                                     >
-                                                        <FaEye />
+                                                        <FaEye /> View
                                                     </Link>
                                                 </td>
                                             </tr>

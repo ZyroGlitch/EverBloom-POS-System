@@ -6,7 +6,7 @@ export default function MetaTagsLayout() {
     return (
         <>
             <Head>
-                <title>EverBloom</title>
+                <title>Tungal's Flower Shop</title>
                 <meta head-key="description" name="description" content="This is the default description" />
                 <link rel="icon" type="image/svg+xml" href={logo} />
             </Head>

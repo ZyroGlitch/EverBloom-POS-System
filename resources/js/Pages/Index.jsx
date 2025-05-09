@@ -45,11 +45,11 @@ export default function Index() {
                 <div className="card shadow-lg rounded-lg border-0 w-100" style={{ maxWidth: '450px' }}>
                     <div className="card-body bg-light px-5 py-3">
                         <form onSubmit={submit}>
-                            <div className="text-center mb-2">
+                            <div className="text-center mb-3">
                                 <img src={logo} alt="logo" className="object-fit-cover" style={{ width: '140px', height: '140px' }} />
                             </div>
 
-                            <h1 className="text-success text-center">EverBloom</h1>
+                            <h3 className="text-success text-center mb-2">Tungal's Flower Shop</h3>
                             <p className="text-muted text-center mb-4">{displayText}</p>
 
                             <div className="mb-3">
@@ -69,7 +69,7 @@ export default function Index() {
                                 <label className="form-check-label" htmlFor="flexCheckDefault">Show password</label>
                             </div>
 
-                            <input type="submit" className="btn btn-success w-100 mb-3" disabled={processing} value="Log In" />
+                            <input type="submit" className="btn btn-success btn-lg w-100 mb-3" disabled={processing} value="Log In" />
                             {flash.error && (<p className='text-danger text-center'>{flash.error}</p>)}
                         </form>
                     </div>

@@ -37,11 +37,6 @@ export default function InventoryLevelChart({ inventoryData }) {
     const options = {
         indexAxis: "y", // Horizontal bars
         responsive: true,
-        plugins: {
-            legend: { display: true, position: "top" },
-            title: { display: true, text: "Inventory Levels", font: { size: 18 } },
-            tooltip: { enabled: true },
-        },
         scales: {
             x: { beginAtZero: true, title: { display: true, text: "Number of Stocks" } },
             y: { title: { display: true, text: "Product Names" } },

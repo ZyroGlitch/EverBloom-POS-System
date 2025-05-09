@@ -53,8 +53,9 @@ function Inventory({ products }) {
                                         <td>
                                             <Link
                                                 href={route('inventory.viewProduct', { product_id: product.id })}
-                                                className='btn btn-primary'
-                                            ><FaEye /></Link>
+                                                className='btn btn-primary btn-sm d-flex justify-content-center align-items-center gap-1'
+                                            ><FaEye /> View
+                                            </Link>
                                         </td>
                                     </tr>
                                 ))

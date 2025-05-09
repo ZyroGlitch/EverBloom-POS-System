@@ -8,22 +8,19 @@ use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
-    public function orders(){
+    public function orders() {
         $user = auth()->user();
-
-        $orders = Order::where('user_id',$user->id)
-        ->latest()
-        ->paginate(10);
-
-        $order_generatedID = OrderDetail::where('user_id', $user->id)
-        ->select('order_id') // Select only the order_id
-        ->distinct() // Ensure only unique order_ids are fetched
-        ->latest()
-        ->get();
-
-        return inertia('Customer/Orders',[
+    
+        // Eager load order details so each order includes its order_id from OrderDetail
+        $orders = Order::with('details') // assumes you defined a 'details' relationship
+            ->where('user_id', $user->id)
+            ->latest()
+            ->paginate(10);
+    
+        return inertia('Customer/Orders', [
             'orders' => $orders,
-            'order_id' => $order_generatedID,
         ]);
     }
+    
+    
 }

@@ -8,13 +8,13 @@ import { IoPeople } from "react-icons/io5";
 function Employee({ employees }) {
     const route = useRoute();
 
-    // console.log(employees);
+    console.log(employees);
 
     return (
         <div>
             <div className="d-flex justify-content-between align-items-center mb-4">
-                <h2>
-                    <span className='text-success'>32</span> Employee
+                <h2 className='text-success'>
+                    <span>{employees.length}</span> Employee
                 </h2>
                 <Link href={route('employee.addEmployee')} className="btn btn-success shadow-sm d-flex align-items-center gap-2"><IoPeople /> Add Employee</Link>
             </div>

@@ -29,9 +29,9 @@ function Cart({ carts, total }) {
     return (
         <div>
             <form onSubmit={submit}>
-                <div className="d-flex justify-content-evenly">
-                    <div className="col-md-7">
-                        <div className="card shadow rounded border-0">
+                <div className="d-flex justify-content-center gap-2">
+                    <div className="col-md-8">
+                        <div className="card shadow-sm rounded">
                             <div className="card-header bg-success text-light d-flex justify-content-between align-items-center">
                                 <h4>Cart</h4>
                                 <h4>{carts.total} Items</h4>
@@ -68,8 +68,12 @@ function Cart({ carts, total }) {
                                                     <td>{cart.quantity}</td>
                                                     <td>₱{cart.subtotal}</td>
                                                     <td>
-                                                        <Link className='text-danger'>
-                                                            <FaTrash />
+
+                                                        <Link
+                                                            href={route('customer.removeItem', { cart_id: cart.id })}
+                                                            className='btn btn-outline-danger btn-sm d-flex justify-content-center align-items-center gap-1'
+                                                        >
+                                                            <FaTrash /> Delete
                                                         </Link>
                                                     </td>
                                                 </tr>
@@ -116,7 +120,7 @@ function Cart({ carts, total }) {
                         </div>
                     </div>
                     <div className="col-md-4">
-                        <div className="card shadow rounded border-0">
+                        <div className="card shadow-sm rounded">
                             <div className="card-body">
                                 <h4 className='text-success mb-3'>Order Summary</h4>
                                 <div className="d-flex justify-content-between align-items-center mb-2">
@@ -155,8 +159,8 @@ function Cart({ carts, total }) {
                         </div>
                     </div>
                 </div>
-            </form>
-        </div>
+            </form >
+        </div >
     )
 }
 

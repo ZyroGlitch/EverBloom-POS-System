@@ -37,7 +37,7 @@ function Product({ products }) {
             </div>
 
             <div className="d-flex justify-content-between align-items-center bg-light p-3">
-                <p className='fw-semibold'>{products.to} out of {products.total} Products</p>
+                <p className='fw-semibold'>Showing {products.to} out of {products.total} products</p>
 
                 <div>
                     {

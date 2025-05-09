@@ -28,7 +28,7 @@ export default function AdminLayout({ children }) {
                             <img src={logo} alt="logo" className="object-fit-cover" style={{ width: '50px', height: '50px' }} />
                         </div>
 
-                        <h2 className='text-success'>EverBloom</h2>
+                        <h5 className='text-success'>Tungal's <br />Flower Shop</h5>
                     </div>
 
 
@@ -83,7 +83,7 @@ export default function AdminLayout({ children }) {
 
                 {/* Content Area (Scrollable) */}
                 <div className="bg-light content">
-                    <nav className="d-flex justify-content-between align-items-center bg-primary text-light px-3 py-2 sticky-top">
+                    <nav className="d-flex justify-content-between align-items-center bg-success text-light px-3 py-2 sticky-top">
                         <div className="d-flex align-items-center gap-3">
                             <button className="btn btn-light humburger-hidden" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample"><FaBars /></button>
 

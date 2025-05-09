@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('order_details', function (Blueprint $table) {
             $table->id();
-            $table->string('order_id', 12);
+            $table->foreignId('order_id');
             $table->foreignId('product_id')->constrained();
             $table->foreignId('user_id')->constrained();
             $table->integer('quantity');

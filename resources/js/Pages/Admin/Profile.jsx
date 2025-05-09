@@ -290,12 +290,6 @@ function Profile({ admin }) {
                                         <div className="d-flex mb-5" style={{ gap: '160px' }}>
                                             <div className="d-flex flex-column gap-4">
                                                 <label
-                                                    htmlFor="current"
-                                                    className="form-label d-flex align-items-center"
-                                                    style={{ height: '38px' }}
-                                                >Current password</label>
-
-                                                <label
                                                     htmlFor="new"
                                                     className="form-label d-flex align-items-center"
                                                     style={{ height: '38px' }}
@@ -309,14 +303,6 @@ function Profile({ admin }) {
                                             </div>
 
                                             <div className="d-flex flex-column gap-4">
-                                                <input
-                                                    type="text"
-                                                    className="form-control shadow-sm"
-                                                    id='current'
-                                                    style={{ width: '500px' }}
-                                                    value='********'
-                                                />
-
                                                 <div className="d-flex align-items-center gap-3">
                                                     <input
                                                         type={newPass ? 'text' : 'password'}

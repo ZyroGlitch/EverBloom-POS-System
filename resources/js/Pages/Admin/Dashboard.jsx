@@ -13,7 +13,7 @@ function Dashboard({ sales_revenue, product_sold, topSellingProducts, inventoryL
 
     return (
         <div>
-            <div className="d-flex align-items-center gap-3 mb-4">
+            <div className="d-flex align-items-center gap-3 mb-5">
                 <div className="card shadow rounded border-0 bg-success text-white w-100">
                     <div className="card-body d-flex align-items-center gap-3">
                         <div className="bg-white text-dark rounded-circle shadow-lg p-3 d-flex justify-content-center align-items-center" >
@@ -40,11 +40,17 @@ function Dashboard({ sales_revenue, product_sold, topSellingProducts, inventoryL
                 </div>
             </div>
 
-            <div className='mb-5'>
-                <SalesChart topSellingProducts={topSellingProducts} />
+            <div className='card shadow rounded mb-5'>
+                <div className="card-body">
+                    <h3 className='text-center'>Top-Selling Products</h3>
+                    <SalesChart topSellingProducts={topSellingProducts} />
+                </div>
             </div>
-            <div className='mb-5'>
-                <InventoryLevelChart inventoryData={inventoryLevels} />
+            <div className='card shadow rounded mb-5'>
+                <div className="card-body">
+                    <h3 className='text-center'>Inventory Levels</h3>
+                    <InventoryLevelChart inventoryData={inventoryLevels} />
+                </div>
             </div>
         </div>
     )

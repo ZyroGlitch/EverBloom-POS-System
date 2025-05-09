@@ -58,7 +58,7 @@ function InvoiceReceipt({ order, orderDetails }) {
                         <p className="text-muted">Invoice #{orderDetails[0].order_id}</p>
                     </div>
                     <div className="text-end">
-                        <h4 className='fw-bold'>EVERBLOOM</h4>
+                        <h4 className='fw-bold'>Tungal's Flower Shop</h4>
                         <p className="text-muted">Gravahan, Matina</p>
                         <p className="text-muted">Davao City</p>
                     </div>

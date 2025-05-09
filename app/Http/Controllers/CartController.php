@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Cart;
 use App\Models\Order;
 use App\Models\OrderDetail;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Str;
 
@@ -37,9 +38,6 @@ class CartController extends Controller
             'cash_received' => 'required',
         ]);
 
-        // Generate a string value of order ID
-        $generated_id = strtoupper(Str::random(12));
-
         $user = auth()->user(); // Get authenticated user
 
         if($fields['cash_received'] < $fields['total']){
@@ -49,7 +47,6 @@ class CartController extends Controller
         }else{
             // dd('Exact amount');
             $store_order = Order::create([
-                'id' => $generated_id,
                 'user_id' => $user->id,
                 'quantity' => 0,
                 'total' => $fields['total'],
@@ -69,16 +66,26 @@ class CartController extends Controller
                 $subtotal += $cart->subtotal;
 
                 OrderDetail::create([
-                    'order_id' => $generated_id,
+                    'order_id' => $store_order->id,
                     'product_id' => $cart->product_id,
                     'user_id' => $user->id,
                     'quantity' => $cart->quantity,
                     'total' => $cart->subtotal,
                 ]);
+
+                // Deducting the quantity of the product after successful order
+                $fetchProduct = Cart::where('id',$cart_id)
+                ->first();
+
+                $currentStock = Product::find($fetchProduct->product_id);
+
+                $updateProduct = Product::where('id',$fetchProduct->product_id)->update([
+                    'stocks' => $currentStock->stocks - $fetchProduct->quantity,
+                ]);
             }
 
             // Update the Order with correct quantity after inserting order details
-            $updateOrder = Order::where('id',$generated_id)
+            $updateOrder = Order::where('id',$store_order->id)
             ->update([
                 'quantity' => $quantity,
             ]);
@@ -86,8 +93,8 @@ class CartController extends Controller
             if($updateOrder){
                 // Clear all the products on the cart after successful checkout
                 Cart::where('user_id',$user->id)->delete();
-                
-                return redirect()->route('customer.invoice',['order_id' => $generated_id]);
+
+                return redirect()->route('customer.invoice',['order_id' => $store_order->id]);
             }else{
                 return redirect()->back()->with('error',"Failed to checkout your orders.");
             }
@@ -120,5 +127,20 @@ class CartController extends Controller
             'order' => $order,
             'orderDetails' => $orderDetails,
         ]);
+    }
+
+    public function removeItem($cart_id){
+        // dd($cart_id);
+        $user = auth()->user();
+
+        $deleteItem = Cart::where('user_id',$user->id)
+        ->where('id',$cart_id)
+        ->delete();
+
+        if($deleteItem){
+            return redirect()->back();
+        }else{
+            return redirect()->back()->with('error','This item failed to remove!');
+        }
     }
 }

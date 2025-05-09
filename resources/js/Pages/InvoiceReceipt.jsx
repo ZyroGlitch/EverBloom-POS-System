@@ -1,12 +1,16 @@
 import React from 'react';
 import CustomerLayout from '../Layout/CustomerLayout';
-import { FaPrint } from "react-icons/fa6";
+import { FaPrint, FaArrowLeftLong } from "react-icons/fa6";
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
+import { Link } from '@inertiajs/react';
+import { useRoute } from '../../../vendor/tightenco/ziggy/';
 
 function InvoiceReceipt({ order, orderDetails }) {
     console.log(order);
     console.log(orderDetails);
+
+    const route = useRoute();
 
     const printRef = React.useRef(null);
 
@@ -30,7 +34,14 @@ function InvoiceReceipt({ order, orderDetails }) {
 
     return (
         <div className='container py-5'>
-            <div className="d-flex justify-content-end mb-3">
+            <div className="d-flex justify-content-end align-items-center mb-3">
+                {/* <Link
+                    className='text-dark d-flex align-items-center gap-2'
+                    style={{ textDecoration: 'none' }}
+                    href={route('customer.cart')}
+                >
+                    <FaArrowLeftLong /> Back to cart
+                </Link> */}
                 <button
                     className="btn btn-dark d-flex align-items-center gap-2"
                     onClick={handleInvoicePdf}
@@ -43,10 +54,10 @@ function InvoiceReceipt({ order, orderDetails }) {
                 <div className="d-flex justify-content-between mb-4">
                     <div>
                         <h3 className='fw-bold'>INVOICE</h3>
-                        <p className="text-muted">Invoice #{orderDetails[0].order_id}</p>
+                        <p className="text-muted">Invoice #TUNGAL{orderDetails[0].order_id}</p>
                     </div>
                     <div className="text-end">
-                        <h4 className='fw-bold'>EVERBLOOM</h4>
+                        <h4 className='fw-bold'>Tungal's Flower Shop</h4>
                         <p className="text-muted">Gravahan, Matina</p>
                         <p className="text-muted">Davao City</p>
                     </div>
