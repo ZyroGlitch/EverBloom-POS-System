@@ -4,6 +4,7 @@ import { FaPhoneVolume } from "react-icons/fa6";
 import { useRoute } from '../../../../vendor/tightenco/ziggy'
 import { Link } from '@inertiajs/react';
 import { IoPeople } from "react-icons/io5";
+import profilePlaceholder from '../../../../public/assets/images/profile.png'
 
 function Employee({ employees }) {
     const route = useRoute();
@@ -26,7 +27,14 @@ function Employee({ employees }) {
                             <div className="card shadow rounded border-0">
                                 <div className="card-header bg-light d-flex justify-content-between align-items-start p-3">
                                     <div>
-                                        <img src={`/storage/${employee.profile}`} alt="profile" className="object-fit-cover rounded-circle mb-3" style={{ width: '80px', height: '80px' }} />
+                                        <img
+                                            src={employee.profile ? `/storage/${employee.profile}` : profilePlaceholder}
+                                            alt="profile"
+                                            className="object-fit-cover rounded-circle mb-3"
+                                            style={{ width: '80px', height: '80px' }}
+                                        />
+
+
                                         <h6>{employee.firstname} {employee.lastname}</h6>
                                         <p className='text-muted mb-0'>{employee.role}</p>
                                     </div>

@@ -105,7 +105,7 @@ function AddProduct() {
                     </div>
                     <div className="col-md-6">
                         <div className="card shadow rounded border-0">
-                            <div className="card-header bg-primary text-light p-3">
+                            <div className="card-header bg-success text-light p-3">
                                 <p>General Information</p>
                             </div>
                             <div className="card-body bg-light">
@@ -127,7 +127,8 @@ function AddProduct() {
                                     }
                                 </div>
 
-                                <div className="form-floating mb-3">
+                                <div className="mb-3">
+                                    <label htmlFor="description">Description</label>
                                     <textarea
                                         className={
                                             `form-control shadow-sm ${errors.description ? 'border border-danger' : 'mb-3'}`
@@ -137,7 +138,7 @@ function AddProduct() {
                                         value={data.description}
                                         onChange={(e) => setData('description', e.target.value)}
                                     ></textarea>
-                                    <label htmlFor="description">Description</label>
+
 
                                     {
                                         errors.description && <p className='text-danger mt-2'>{errors.description}</p>

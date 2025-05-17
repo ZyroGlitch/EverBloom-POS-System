@@ -44,7 +44,7 @@ function InvoiceReceipt({ order, orderDetails }) {
                     Back to Sales
                 </Link>
                 <button
-                    className="btn btn-dark d-flex align-items-center gap-2"
+                    className="btn btn-success d-flex align-items-center gap-2"
                     onClick={handleInvoicePdf}
                 >
                     <FaPrint /> Download Invoice
@@ -55,10 +55,10 @@ function InvoiceReceipt({ order, orderDetails }) {
                 <div className="d-flex justify-content-between mb-4">
                     <div>
                         <h3 className='fw-bold'>INVOICE</h3>
-                        <p className="text-muted">Invoice #{orderDetails[0].order_id}</p>
+                        <p className="text-muted">Invoice #TUNGAL{orderDetails[0].order_id}</p>
                     </div>
                     <div className="text-end">
-                        <h4 className='fw-bold'>Tungal's Flower Shop</h4>
+                        <h4 className='fw-bold text-success'>Tungal's Flower Shop</h4>
                         <p className="text-muted">Gravahan, Matina</p>
                         <p className="text-muted">Davao City</p>
                     </div>

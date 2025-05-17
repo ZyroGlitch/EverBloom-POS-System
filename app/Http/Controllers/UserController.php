@@ -387,6 +387,25 @@ class UserController extends Controller
     }
 
     public function searchedOrderID(Request $request){
+         // 1️⃣  Pull the raw value coming from the browser, e.g. “#TUNGAL14”
+    $rawId = $request->input('order_id');
+
+    /*
+     * 2️⃣  Strip everything that isn’t a digit.
+     *     - “#TUNGAL14” ➜ “14”
+     *     - “ABC-123”  ➜ “123”
+     *
+     *     If the prefix is *always* “#TUNGAL”, you could replace it
+     *     directly with `str_replace('#TUNGAL', '', $rawId)`, but the
+     *     regex below is safer if the prefix might vary.
+     */
+    $cleanId = preg_replace('/\D+/', '', $rawId);   // keep digits only
+
+    // 3️⃣  Overwrite the request so you can keep using $request->order_id
+    $request->merge(['order_id' => (int) $cleanId]);
+
+    // dd($request->order_id);
+    
         $employees = User::where('role','Employee')->get();
 
             $order_id = OrderDetail::select('order_id')

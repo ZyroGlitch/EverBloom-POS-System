@@ -49,7 +49,8 @@ export default function CustomerLayout({ children }) {
                     <nav className="d-flex flex-column gap-1">
                         <Link
                             href={route('customer.product')}
-                            className={`d-flex align-items-center gap-2 rounded p-2 sidebar-item ${route().current('customer.product') ? 'active' : ''}`}
+                            className={`d-flex align-items-center gap-2 rounded p-2 sidebar-item ${route().current('customer.product') ||
+                                route().current('customer.showProduct') ? 'active' : ''}`}
                         >
                             <BsBagFill /> Products
                         </Link>

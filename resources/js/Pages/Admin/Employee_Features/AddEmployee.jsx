@@ -118,7 +118,7 @@ function AddEmployee() {
                     </div>
                     <div className="col-md-7">
                         <div className="card shadow rounded border-0">
-                            <div className="card-header bg-primary text-light p-3">
+                            <div className="card-header bg-success text-light p-3">
                                 <p>Fill in all the information.</p>
                             </div>
                             <div className="card-body bg-light">

@@ -152,7 +152,7 @@ function Cart({ carts, total }) {
 
                                 <button
                                     type='submit'
-                                    className='btn btn-primary w-100 shadow d-flex justify-content-center align-items-center gap-2'
+                                    className='btn btn-success w-100 shadow d-flex justify-content-center align-items-center gap-2'
                                     disabled={processing}
                                 ><BsCartFill /> Checkout</button>
                             </div>

@@ -49,7 +49,7 @@ function Sales({ employees, order_id, orders, currentSelected_ID }) {
                     />
                     <button
                         type='submit'
-                        className='btn btn-primary'
+                        className='btn btn-success'
                         disabled={processing}
                     >
                         <IoSearchSharp />
@@ -158,7 +158,7 @@ function Sales({ employees, order_id, orders, currentSelected_ID }) {
                                                                     ? order_id[index]?.order_id
                                                                     : order_id?.order_id
                                                         })}
-                                                        className='btn btn-primary btn-sm d-flex justify-content-center align-items-center gap-2'
+                                                        className='btn btn-success btn-sm d-flex justify-content-center align-items-center gap-2'
                                                     >
                                                         <FaEye /> View
                                                     </Link>

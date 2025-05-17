@@ -43,21 +43,27 @@ export default function AdminLayout({ children }) {
 
                         <Link
                             href={route('admin.sales')}
-                            className={`d-flex align-items-center gap-2 rounded p-2 sidebar-item ${route().current('admin.sales') ? 'active' : ''}`}
+                            className={`d-flex align-items-center gap-2 rounded p-2 sidebar-item ${route().current('admin.sales') ||
+                                route().current('admin.invoice') ||
+                                route().current('admin.selectedEmployee') ? 'active' : ''}`}
                         >
                             <FaCoins /> Sales
                         </Link>
 
                         <Link
                             href={route('admin.inventory')}
-                            className={`d-flex align-items-center gap-2 rounded p-2 sidebar-item ${route().current('admin.inventory') ? 'active' : ''}`}
+                            className={`d-flex align-items-center gap-2 rounded p-2 sidebar-item ${route().current('admin.inventory') ||
+                                route().current('inventory.viewProduct') ||
+                                route().current('inventory.addProduct') ? 'active' : ''}`}
                         >
                             <FaCubes /> Inventory
                         </Link>
 
                         <Link
                             href={route('admin.employee')}
-                            className={`d-flex align-items-center gap-2 rounded p-2 sidebar-item ${route().current('admin.employee') ? 'active' : ''}`}
+                            className={`d-flex align-items-center gap-2 rounded p-2 sidebar-item ${route().current('admin.employee') ||
+                                route().current('employee.viewProfile') ||
+                                route().current('employee.addEmployee') ? 'active' : ''}`}
                         >
                             <IoPeople /> Employee
                         </Link>

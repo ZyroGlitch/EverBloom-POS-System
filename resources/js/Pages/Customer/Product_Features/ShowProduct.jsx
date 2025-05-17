@@ -61,9 +61,6 @@ function ShowProduct({ product }) {
                             <div className='d-flex flex-column gap-2'>
                                 <h5>Price</h5>
                                 <h5>Stock available</h5>
-                                <h6 className={`mb-2
-                                ${product.status === 'Active' ? 'text-success' : 'text-danger'} 
-                            `}>{product.status}</h6>
                             </div>
                             <div className='d-flex flex-column gap-2'>
                                 <p>₱{product.price}</p>
@@ -94,7 +91,7 @@ function ShowProduct({ product }) {
                         <div className="d-flex align-items-center gap-3">
                             <button
                                 type='submit'
-                                className='btn btn-primary shadow-sm d-flex justify-content-center align-items-center gap-2 w-100'
+                                className='btn btn-success shadow-sm d-flex justify-content-center align-items-center gap-2 w-100'
                                 disabled={processing}
                             >
                                 <BsCartFill /> Add to cart

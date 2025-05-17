@@ -15,7 +15,6 @@ function Orders({ orders }) {
                     <table className="table">
                         <thead>
                             <tr className='text-center'>
-                                <th></th>
                                 <th className='text-start'>Order ID</th>
                                 <th>Quantity</th>
                                 <th>Total</th>
@@ -42,14 +41,6 @@ function Orders({ orders }) {
 
                                     return (
                                         <tr className='align-middle' key={order.id}>
-                                            <td className='text-center'>
-                                                <input
-                                                    className="form-check-input shadow-sm"
-                                                    type="checkbox"
-                                                    value={orderId ?? ''}
-                                                    disabled={!orderId}
-                                                />
-                                            </td>
                                             <td className='text-start'>
                                                 {orderId ? `#TUNGAL${orderId}` : 'N/A'}
                                             </td>
@@ -83,8 +74,8 @@ function Orders({ orders }) {
                     </table>
                 </div>
 
-                <div className="card-footer d-flex justify-content-between align-items-center bg-light p-3">
-                    <p>{orders.to} out of {orders.total} Products</p>
+                <div className="card-footer d-flex justify-content-between align-items-center bg-light text-success p-3">
+                    <p>Showing {orders.to} out of {orders.total} Products</p>
                     <div>
                         {orders.links.map((link) => (
                             link.url ? (
